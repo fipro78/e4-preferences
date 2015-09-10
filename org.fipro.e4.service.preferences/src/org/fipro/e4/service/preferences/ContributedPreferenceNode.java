@@ -1,5 +1,8 @@
 package org.fipro.e4.service.preferences;
 
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
+import org.eclipse.e4.core.contexts.EclipseContextFactory;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceNode;
@@ -7,6 +10,7 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.fipro.e4.service.preferences.impl.PreferenceManagerSupplier;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.log.LogService;
 
 /**
  * Specialization of {@link PreferenceNode} that overrides
@@ -21,6 +25,9 @@ public class ContributedPreferenceNode extends PreferenceNode {
 	private final Class<? extends IPreferencePage> pageClass;
 	
 	private IPreferenceStore store;
+	
+	private IEclipseContext context;
+	private LogService logger;
 
 	/**
 	 * Create a new ContributedPreferenceNode.
@@ -56,22 +63,34 @@ public class ContributedPreferenceNode extends PreferenceNode {
 
 		this.nodeQualifier = (nodeQualifier != null) 
 				? nodeQualifier : FrameworkUtil.getBundle(pageClass).getSymbolicName();
+
+		this.context = EclipseContextFactory.getServiceContext(
+				FrameworkUtil.getBundle(pageClass).getBundleContext());
+		this.logger = context.get(LogService.class);
 	}
 
 	@Override
 	public void createPage() {
+		// create the page via DI using the OSGi service context
 		try {
-			setPage(this.pageClass.newInstance());
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+			IPreferencePage page = ContextInjectionFactory.make(this.pageClass, this.context);
+			setPage(page);
+			
+			if (getLabelImage() != null) {
+				getPage().setImageDescriptor(getImageDescriptor());
+			}
+			getPage().setTitle(getLabelText());
+			
+			((PreferencePage) getPage()).setPreferenceStore(this.store);
 		}
-
-		if (getLabelImage() != null) {
-			getPage().setImageDescriptor(getImageDescriptor());
+		catch (Exception e) {
+			if (this.logger != null) {
+				this.logger.log(
+						LogService.LOG_ERROR, 
+						"Error on creating instance of " + this.pageClass.getName(), 
+						e);
+			}
 		}
-		getPage().setTitle(getLabelText());
-
-		((PreferencePage) getPage()).setPreferenceStore(this.store);
 	}
 
 	/**
