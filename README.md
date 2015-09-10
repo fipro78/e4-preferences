@@ -33,6 +33,7 @@ public class MyPreferenceContribution extends PreferenceNodeContribution {
   3. Set an appropriate _Filename_ and _Name_
   4. Select the created `PreferenceNodeContribution` as _Class_
   5. Add `org.fipro.e4.service.preferences.PreferenceNodeContribution` as _Provided Service_
+  6. Add _Bundle-ActivationPolicy: lazy_ to the MANIFEST.MF (_Activate this plug-in when one of its classes is loaded_ on the _Overview_ tab of the PDE editor)
 
 To open a JFace `PreferenceDialog` that looks similar to the known Eclipse workbench preference dialog, you need to create a handler that looks similar to the following snippet:
 
