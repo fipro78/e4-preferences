@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Dirk Fauth.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Eclipse - copy of the org.eclipse.ui.workbench implementation
+ *     Dirk Fauth <dirk.fauth@googlemail.com> - removal of org.eclipse.ui dependencies
+ *******************************************************************************/
 package org.fipro.e4.service.preferences.impl;
 
 import java.io.IOException;
