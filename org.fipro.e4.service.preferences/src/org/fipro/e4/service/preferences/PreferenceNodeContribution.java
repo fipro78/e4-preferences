@@ -92,7 +92,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 */
 	public PreferenceNodeContribution(
 			String id, 
@@ -116,7 +116,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 * @param nodeQualifier
 	 *            the qualifier used to look up the preference node
 	 */
@@ -145,7 +145,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 * @param nodeQualifier
 	 *            the qualifier used to look up the preference node
 	 */
@@ -211,7 +211,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 */
 	public void addPreferenceNode(
 			String id, 
@@ -235,7 +235,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 * @param nodeQualifier
 	 *            the qualifier used to look up the preference node
 	 */
@@ -264,7 +264,7 @@ public class PreferenceNodeContribution {
 	 *            {@link IPreferencePage}
 	 * @param path
 	 *            the path of the node to which the contributed node should be
-	 *            added to
+	 *            added to, which is the dot separated list of parent ids 
 	 * @param nodeQualifier
 	 *            the qualifier used to look up the preference node
 	 */

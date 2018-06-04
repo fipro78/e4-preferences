@@ -15,9 +15,11 @@ To use the service, existing preference pages need to be modified:
 To contribute the preference page to this service, the following steps need to be performed:
 
 5. Add _org.fipro.e4.service.preferences_ to the _Dependencies_ section of the *MANIFEST.MF* file of the plug-in that contributes the preference page
-6. Create a `PreferenceNodeContribution` for the `PreferencePage` (e.g. `MyPreferencePage`)
+6. Enable DS Annotations support via Window - Preferences - Plug-in Development - DS Annotations
+7. Create a `PreferenceNodeContribution` for the `PreferencePage` (e.g. `MyPreferencePage`)
 
 ```java
+@Component(service=PreferenceNodeContribution.class)
 public class MyPreferenceContribution extends PreferenceNodeContribution {
 
     public MyPreferenceContribution() {
@@ -27,14 +29,6 @@ public class MyPreferenceContribution extends PreferenceNodeContribution {
 }
 ```
  
-7. Create a _Component Definition_ for the `PreferenceNodeContribution`
-  1. Create folder *_OSGI-INF_* (and ensure it is added to the *build.properties*)
-  2. Create a component definition via _File_ -> _New_ -> _Component Definition_
-  3. Set an appropriate _Filename_ and _Name_
-  4. Select the created `PreferenceNodeContribution` as _Class_
-  5. Add `org.fipro.e4.service.preferences.PreferenceNodeContribution` as _Provided Service_
-  6. Add _Bundle-ActivationPolicy: lazy_ to the MANIFEST.MF (_Activate this plug-in when one of its classes is loaded_ on the _Overview_ tab of the PDE editor)
-
 To open a JFace `PreferenceDialog` that looks similar to the known Eclipse workbench preference dialog, you need to create a handler that looks similar to the following snippet:
 
 ```java
