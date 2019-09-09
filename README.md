@@ -5,9 +5,9 @@ This plug-in can be used for migrating an Eclipse 3.x based application to using
 _org.eclipse.ui.preferencePages_ and dependencies to _org.eclipse.ui_, which is necessary to get rid of the compatibility layer.
 
 To consume the service via target platform, the following update sites are available:
-- 0.2.0 (works with Java 7 and Eclipse Luna)
+- 0.2.0 (works with Java 7 and Eclipse Luna)\
   http://github.com/fipro78/e4-preferences/raw/master/release/0.2.0
-- 0.3.0 (works with Java 8 and Eclipse 2019-06 because of OSGi R7 Logging)
+- 0.3.0 (works with Java 8 and Eclipse 2019-06 because of OSGi R7 Logging)\
   http://github.com/fipro78/e4-preferences/raw/master/release/0.3.0
 
 To use the service, existing preference pages need to be modified:
