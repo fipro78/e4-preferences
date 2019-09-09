@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.fipro.e4.service.preferences.feature">
+      <category name="preference_service"/>
+   </feature>
+   <category-def name="preference_service" label="E4 Preferences Service"/>
+</site>

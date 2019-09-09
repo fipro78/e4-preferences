@@ -1,0 +1,7 @@
+target "E4 Preferences Service Target Platform"
+
+with source requirements
+
+location "http://download.eclipse.org/releases/neon" {
+	org.eclipse.sdk.feature.group
+}

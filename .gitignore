@@ -1,6 +1,7 @@
 #Ignore all bin folders
 bin/
 target/
+workspace/
 #Ignore all .settings folders
 */.settings/
 #Ignore vi temporary files
