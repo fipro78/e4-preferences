@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Dirk Fauth.
+ * Copyright (c) 2015, 2019 Dirk Fauth.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,7 +20,8 @@ import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.fipro.e4.service.preferences.impl.PreferenceManagerSupplier;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.log.LogService;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
 
 /**
  * Specialization of {@link PreferenceNode} that overrides
@@ -37,7 +38,7 @@ public class ContributedPreferenceNode extends PreferenceNode {
 	private IPreferenceStore store;
 	
 	private IEclipseContext context;
-	private LogService logger;
+	private Logger logger;
 
 	/**
 	 * Create a new ContributedPreferenceNode.
@@ -72,11 +73,13 @@ public class ContributedPreferenceNode extends PreferenceNode {
 		this.pageClass = pageClass;
 
 		this.nodeQualifier = (nodeQualifier != null) 
-				? nodeQualifier : FrameworkUtil.getBundle(pageClass).getSymbolicName();
+				? nodeQualifier 
+				: FrameworkUtil.getBundle(pageClass).getSymbolicName();
 
 		this.context = EclipseContextFactory.getServiceContext(
 				FrameworkUtil.getBundle(pageClass).getBundleContext());
-		this.logger = context.get(LogService.class);
+		LoggerFactory factory = context.get(LoggerFactory.class);
+		this.logger = factory.getLogger(getClass());
 	}
 
 	@Override
@@ -95,10 +98,7 @@ public class ContributedPreferenceNode extends PreferenceNode {
 		}
 		catch (Exception e) {
 			if (this.logger != null) {
-				this.logger.log(
-						LogService.LOG_ERROR, 
-						"Error on creating instance of " + this.pageClass.getName(), 
-						e);
+				this.logger.error("Error on creating instance of {}", this.pageClass.getName(), e);
 			}
 		}
 	}

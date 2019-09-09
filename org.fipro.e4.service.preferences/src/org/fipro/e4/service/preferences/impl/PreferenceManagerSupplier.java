@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2018 Dirk Fauth.
+ * Copyright (c) 2015, 2019 Dirk Fauth.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,8 +11,6 @@
 package org.fipro.e4.service.preferences.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -112,14 +110,10 @@ public class PreferenceManagerSupplier extends ExtendedObjectSupplier {
 
 	private void rememberContributedPreferenceNode(ContributedPreferenceNode node) {
 		this.nodes.add(node);
-		Collections.sort(this.nodes, new Comparator<ContributedPreferenceNode>() {
-
-			@Override
-			public int compare(ContributedPreferenceNode o1, ContributedPreferenceNode o2) {
-				int depth1 = o1.getPath() == null ? 0 : o1.getPath().split("\\.").length;
-				int depth2 = o2.getPath() == null ? 0 : o2.getPath().split("\\.").length;
-				return depth1 - depth2;
-			}
+		this.nodes.sort((ContributedPreferenceNode o1, ContributedPreferenceNode o2) -> {
+			int depth1 = o1.getPath() == null ? 0 : o1.getPath().split("\\.").length;
+			int depth2 = o2.getPath() == null ? 0 : o2.getPath().split("\\.").length;
+			return depth1 - depth2;
 		});
 	}
 	
@@ -144,8 +138,6 @@ public class PreferenceManagerSupplier extends ExtendedObjectSupplier {
 	 *            The {@link PreferenceNodeContribution} to unbind.
 	 */
 	public synchronized void removePreferenceNode(PreferenceNodeContribution node) {
-		for (ContributedPreferenceNode contribNode : node.getPreferenceNodes()) {
-			getManager().remove(contribNode);
-		}
+		node.getPreferenceNodes().forEach(getManager()::remove);
 	}
 }
