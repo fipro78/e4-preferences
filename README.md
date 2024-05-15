@@ -9,6 +9,8 @@ To consume the service via target platform, the following update sites are avail
   https://github.com/fipro78/e4-preferences/raw/master/releases/0.2.0
 - 0.3.0 (works with Java 8 and Eclipse 2019-06 because of OSGi R7 Logging)\
   https://github.com/fipro78/e4-preferences/raw/master/releases/0.3.0
+- 0.4.0 (works with Java 17 and Eclipse 2024-03 because of `jakarta.inject` annotations)\
+  https://github.com/fipro78/e4-preferences/raw/master/releases/0.4.0
 
 To use the service, existing preference pages need to be modified:
 

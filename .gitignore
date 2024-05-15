@@ -10,3 +10,4 @@ workspace/
 *.patch
 class/
 *.class
+.polyglot*
