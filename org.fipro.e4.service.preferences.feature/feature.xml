@@ -2,7 +2,7 @@
 <feature
       id="org.fipro.e4.service.preferences.feature"
       label="Eclipse 4 Preference Dialog Service Feature"
-      version="0.4.0.qualifier">
+      version="0.5.0.qualifier">
 
    <description url="https://github.com/fipro78/e4-preferences">
       Feature that contains plugins to use the preferences dialog in a plain E4 application without compatibility layer.

@@ -5,12 +5,15 @@ This plug-in can be used for migrating an Eclipse 3.x based application to using
 _org.eclipse.ui.preferencePages_ and dependencies to _org.eclipse.ui_, which is necessary to get rid of the compatibility layer.
 
 To consume the service via target platform, the following update sites are available:
-- 0.2.0 (works with Java 7 and Eclipse Luna)\
+- 0.2.0 (works with Java 7 and Eclipse Luna)  
   https://github.com/fipro78/e4-preferences/raw/master/releases/0.2.0
-- 0.3.0 (works with Java 8 and Eclipse 2019-06 because of OSGi R7 Logging)\
+- 0.3.0 (works with Java 8 and Eclipse 2019-06 because of OSGi R7 Logging)  
   https://github.com/fipro78/e4-preferences/raw/master/releases/0.3.0
-- 0.4.0 (works with Java 17 and Eclipse 2024-03 because of `jakarta.inject` annotations)\
+- 0.4.0 (works with Java 17 and Eclipse 2024-03 because of `jakarta.inject` annotations)  
   https://github.com/fipro78/e4-preferences/raw/master/releases/0.4.0
+- 0.5.0 (works with Java 17 and Eclipse 2024-03 because of `jakarta.inject` annotations)  
+  https://github.com/fipro78/e4-preferences/raw/master/releases/0.5.0  
+  Uses a `IContextFunction` instead of an `ExtendedObjectSupplier` which avoids the usage of the `@PrefMgr` annotation.
 
 To use the service, existing preference pages need to be modified:
 
@@ -43,7 +46,7 @@ To open a JFace `PreferenceDialog` that looks similar to the known Eclipse workb
 public class PreferencesHandler {
 	
     @Execute
-    public void execute(Shell shell, @PrefMgr PreferenceManager manager) {
+    public void execute(Shell shell, PreferenceManager manager) {
         PreferenceDialog dialog = new PreferenceDialog(shell, manager) {
         
         @Override

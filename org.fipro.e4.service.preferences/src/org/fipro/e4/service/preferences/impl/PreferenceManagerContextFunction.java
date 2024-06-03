@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2019 Dirk Fauth.
+ * Copyright (c) 2024 Dirk Fauth.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier;
-import org.eclipse.e4.core.di.suppliers.IObjectDescriptor;
-import org.eclipse.e4.core.di.suppliers.IRequestor;
+import org.eclipse.e4.core.contexts.ContextFunction;
+import org.eclipse.e4.core.contexts.IContextFunction;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferenceNode;
@@ -28,15 +28,10 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
-/**
- * {@link ExtendedObjectSupplier} for creating and managing a
- * {@link PreferenceManager}. This implementation will only create one instance
- * and return the same instance everytime.
- */
 @Component(
-		service=ExtendedObjectSupplier.class,
-		property="dependency.injection.annotation=org.fipro.e4.service.preferences.PrefMgr")
-public class PreferenceManagerSupplier extends ExtendedObjectSupplier {
+	service = IContextFunction.class, 
+	property = "service.context.key=org.eclipse.jface.preference.PreferenceManager")
+public class PreferenceManagerContextFunction extends ContextFunction {
 
 	PreferenceManager mgr;
 
@@ -45,16 +40,16 @@ public class PreferenceManagerSupplier extends ExtendedObjectSupplier {
 	private List<ContributedPreferenceNode> nodes = new ArrayList<>();
 
 	@Override
-	public Object get(IObjectDescriptor descriptor, IRequestor requestor, boolean track, boolean group) {
-		return getManager();
-	}
+    public Object compute(IEclipseContext context, String contextKey) {
+        return getManager();
+    }
 
 	/**
 	 * 
 	 * @return The {@link PreferenceManager} managed by this
 	 *         {@link PreferenceManagerSupplier}
 	 */
-	protected PreferenceManager getManager() {
+	protected synchronized PreferenceManager getManager() {
 		if (this.mgr == null) {
 			this.mgr = new PreferenceManager();
 		}

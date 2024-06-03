@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2019 Dirk Fauth.
+ * Copyright (c) 2015, 2024 Dirk Fauth.
  *
  * This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
@@ -21,7 +21,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceNode;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.fipro.e4.service.preferences.impl.PreferenceManagerSupplier;
+import org.fipro.e4.service.preferences.impl.PreferenceManagerContextFunction;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
@@ -78,18 +78,13 @@ public class ContributedPreferenceNode extends PreferenceNode {
 		this.nodeQualifier = (nodeQualifier != null) 
 				? nodeQualifier 
 				: FrameworkUtil.getBundle(pageClass).getSymbolicName();
-
-		this.context = EclipseContextFactory.getServiceContext(
-				FrameworkUtil.getBundle(pageClass).getBundleContext());
-		LoggerFactory factory = context.get(LoggerFactory.class);
-		this.logger = factory.getLogger(getClass());
 	}
 
 	@Override
 	public void createPage() {
 		// create the page via DI using the OSGi service context
 		try {
-			IPreferencePage page = ContextInjectionFactory.make(this.pageClass, this.context);
+			IPreferencePage page = ContextInjectionFactory.make(this.pageClass, getContext());
 			setPage(page);
 			
 			if (getLabelImage() != null) {
@@ -100,12 +95,37 @@ public class ContributedPreferenceNode extends PreferenceNode {
 			((PreferencePage) getPage()).setPreferenceStore(this.store);
 		}
 		catch (Exception e) {
-			if (this.logger != null) {
-				this.logger.error("Error on creating instance of {}", this.pageClass.getName(), e);
+			if (getLogger() != null) {
+				getLogger().error("Error on creating instance of {}", this.pageClass.getName(), e);
 			}
 		}
 	}
 
+	/**
+	 * 
+	 * @return The {@link IEclipseContext} that can be used to lookup OSGi services.
+	 */
+	private synchronized IEclipseContext getContext() {
+		if (this.context == null) {
+			this.context = EclipseContextFactory.getServiceContext(
+					FrameworkUtil.getBundle(this.pageClass).getBundleContext());
+		}
+		return this.context;
+	}
+	
+	/**
+	 * 
+	 * @return The {@link Logger} named for this class or <code>null</code> if no
+	 *         {@link LoggerFactory} is available.
+	 */
+	private Logger getLogger() {
+		if (this.logger == null) {
+			LoggerFactory factory = getContext().get(LoggerFactory.class);
+			this.logger = factory.getLogger(getClass());
+		}
+		return this.logger;
+	}
+	
 	/**
 	 * @return the path of the node to which the contributed node should be
 	 *         added to
@@ -124,7 +144,7 @@ public class ContributedPreferenceNode extends PreferenceNode {
 	/**
 	 * Set the {@link IPreferenceStore} that should be used by the contributed
 	 * {@link IPreferencePage}. This method will be called by the
-	 * {@link PreferenceManagerSupplier} when the
+	 * {@link PreferenceManagerContextFunction} when the
 	 * {@link PreferenceNodeContribution} is added to it.
 	 * 
 	 * @param store

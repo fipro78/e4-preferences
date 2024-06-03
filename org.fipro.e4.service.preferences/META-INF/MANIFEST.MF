@@ -2,13 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse 4 Preference Dialog Service
 Bundle-SymbolicName: org.fipro.e4.service.preferences
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.5.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.10.0"
-Service-Component: OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceManagerSupplier.xml,
- OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceStoreSupplier.xml,
- OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceStoreFactoryServiceImpl.xml
-Export-Package: org.fipro.e4.service.preferences;version="0.4.0";uses:="org.eclipse.jface.resource,org.eclipse.jface.preference"
+Export-Package: org.fipro.e4.service.preferences;version="0.5.0";uses:="org.eclipse.jface.resource,org.eclipse.jface.preference"
 Bundle-ActivationPolicy: lazy
 Import-Package: jakarta.inject;version="[2.0.0,3.0.0]",
  org.eclipse.core.commands.common,
@@ -24,3 +21,6 @@ Require-Capability: osgi.extender;
  filter:="(&(osgi.extender=osgi.component)(version>=1.3)(!(version>=2.0)))"
 Automatic-Module-Name: org.fipro.e4.service.preferences
 Bundle-Vendor: Dirk Fauth
+Service-Component: OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceManagerContextFunction.xml,
+ OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceStoreFactoryServiceImpl.xml,
+ OSGI-INF/org.fipro.e4.service.preferences.impl.PreferenceStoreSupplier.xml
